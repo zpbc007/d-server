@@ -8,9 +8,10 @@
     "target": "es6",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
-      "@config/*": [ "./src/config/*" ]
+      "@config/*": ["config/*"],
+      "@utils/*": ["utils/*"]
     }
   },
   "exclude": ["node_modules"]
