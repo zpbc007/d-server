@@ -9,14 +9,39 @@ export class UserService {
      * 获取用户id
      * @param code 免登授权码 前端提供
      */
-    async getUserId(code: string) {
-        const info = await this.client
+    async getIdInfo(code: string) {
+        const idInfo = await this.client
             .setUrl('/user/getuserinfo')
             .setQueryObj({
                 code,
             })
             .get()
-        Logger.log('user info: ', info)
-        return info
+        Logger.log('user idInfo: ', JSON.stringify(idInfo))
+        return idInfo
+    }
+
+    /**
+     * 获取用户详情信息
+     * @param id 用户id
+     */
+    async getDatail(id: string) {
+        const detail = await this.client
+            .setUrl('/user/get')
+            .setQueryObj({
+                userid: id,
+            })
+            .get()
+        Logger.log('user detail: ', JSON.stringify(detail))
+        return detail
+    }
+
+    /**
+     * 获取管理员列表
+     */
+    async getAdmins() {
+        const admins = await this.client.setUrl('/user/get_admin').get()
+
+        Logger.log(`admins: ${JSON.stringify(admins)}`)
+        return admins
     }
 }

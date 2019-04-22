@@ -7,6 +7,11 @@ export class DingController {
 
     @Get('/userid/:code')
     getUserId(@Param('code') code: string) {
-        return this.userService.getUserId(code)
+        return this.userService.getIdInfo(code)
+    }
+
+    @Get('/user/:id')
+    getUserInfo(@Param('id') id: string) {
+        return this.userService.getDatail(id)
     }
 }
