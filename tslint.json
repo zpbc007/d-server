@@ -15,6 +15,7 @@
     "interface-name": [false],
     "arrow-parens": false,
     "object-literal-sort-keys": false,
-    "semicolon": [true, "never"]
+    "semicolon": [true, "never"],
+    "variable-name": [true, "allow-snake-case"]
   }
 }

@@ -23,17 +23,13 @@ export class DepartmentService {
      * 获取部门用户userid列表
      * @param deptId 部门id
      */
-    async getUserIds(deptId: string) {
-        const userIds = await this.client
+    getUserIds(deptId: string) {
+        return this.client
             .setUrl('/user/getDeptMember')
             .setQueryObj({
                 deptId,
             })
             .get()
-
-        Logger.log(`dept user id list: ${JSON.stringify(userIds)}`)
-
-        return userIds
     }
 
     /**
@@ -43,8 +39,8 @@ export class DepartmentService {
      * @param size 分页大小 最大100
      * @param order 排序
      */
-    async getUsers(deptId: string, offset: number, size: number, order: UserOrderEnum) {
-        const users = await this.client
+    getUsers(deptId: string, offset: number, size: number, order: UserOrderEnum) {
+        return this.client
             .setUrl('/user/simplelist')
             .setQueryObj({
                 lang: 'zh_CN',
@@ -54,9 +50,6 @@ export class DepartmentService {
                 order,
             })
             .get()
-        Logger.log(`dept users: ${JSON.stringify(users)}`)
-
-        return users
     }
 
     /**
@@ -67,7 +60,7 @@ export class DepartmentService {
      * @param order 排序
      */
     async getUsersDetail(deptId: string, offset: number, size: number, order: UserOrderEnum) {
-        const users = await this.client
+        return this.client
             .setUrl('/user/listbypage')
             .setQueryObj({
                 lang: 'zh_CN',
@@ -77,8 +70,5 @@ export class DepartmentService {
                 order,
             })
             .get()
-        Logger.log(`dept users detail: ${JSON.stringify(users)}`)
-
-        return users
     }
 }
