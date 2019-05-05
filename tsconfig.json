@@ -11,7 +11,9 @@
     "baseUrl": "./src",
     "paths": {
       "@config/*": ["config/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@module-back/*": ["module/backend/*"],
+      "@type-comp/*": ["type/component/*"]
     }
   },
   "exclude": ["node_modules"]

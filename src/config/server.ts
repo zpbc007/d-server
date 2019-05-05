@@ -7,4 +7,8 @@ export const ServerConfig = {
         tokenExpireTime: 7200,
         agentId: 253844578,
     },
+    backend: {
+        port: 9090,
+        host: '172.16.0.3',
+    },
 }
