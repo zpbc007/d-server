@@ -1,6 +1,6 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:recommended"],
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
   "rulesDirectory": ["tslint-plugin-prettier"],
   "jsRules": {
     "no-unused-expression": true
@@ -15,7 +15,7 @@
     "interface-name": [false],
     "arrow-parens": false,
     "object-literal-sort-keys": false,
-    "semicolon": [true, "never"],
-    "variable-name": [true, "allow-snake-case"]
+    "variable-name": [true, "allow-snake-case"],
+    "semicolon": [true, "never"]
   }
 }
