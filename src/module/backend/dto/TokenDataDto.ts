@@ -1,3 +1,18 @@
+export type FieldDataType =
+    | 'STRING'
+    | 'DATE'
+    | 'SELECT' // 主动选择
+    | 'SELECT_INTERN' // 被选择的字段
+    | 'DECIMAL'
+    | 'FILE'
+    | 'INTEGER'
+    | 'CODE'
+    | 'IMAGE'
+    | 'BOOLEAN'
+    | 'MEMO'
+    | 'CONSTANT'
+    | 'MULTI_CONSTANT'
+
 export interface FkeyField {
     /**
      * 1、日期、数量、金额、备注等用户手填/手选字段
@@ -7,20 +22,7 @@ export interface FkeyField {
      */
     fieldDomainType?: string
 
-    dataType:
-        | 'STRING'
-        | 'DATE'
-        | 'SELECT'
-        | 'SELECT_INTERN'
-        | 'DECIMAL'
-        | 'FILE'
-        | 'INTEGER'
-        | 'CODE'
-        | 'IMAGE'
-        | 'BOOLEAN'
-        | 'MEMO'
-        | 'CONSTANT'
-        | 'MULTI_CONSTANT'
+    dataType: FieldDataType
     key: string
     MetaFieldType?: string
 

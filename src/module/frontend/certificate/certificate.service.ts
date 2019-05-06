@@ -1,21 +1,25 @@
 import { Injectable } from '@nestjs/common'
-import { BCertificateService } from '@module-back/b-certificate'
+import { BCertificateService, BCertificateApi } from '@module-back/b-certificate'
 import { MetaService } from '@module-back/meta'
 import { ITableSchema, IColumn } from '@type-comp/table-schema'
 import { ITableData } from '@type-comp/table-data'
+import { BaseService } from '@module-back/base'
+import { IFormSchema } from '@type-comp/form-schema'
 
 const operationKey = '_operaction'
 
 @Injectable()
 export class CertificateService {
     constructor(
-        private readonly baseService: BCertificateService,
+        private readonly bCertificateService: BCertificateService,
+        private readonly bCertificateApi: BCertificateApi,
         private readonly metaService: MetaService,
+        private readonly baseService: BaseService,
     ) {}
 
     // 根据业务单元 id 获取对应的所有的 table 列定义
     async getCertificateColumnsByBUnitId(bUnitId: string) {
-        const certificates = await this.baseService.getCertificateMetaByBUnitId(bUnitId)
+        const certificates = await this.bCertificateService.getCertificateMetaByBUnitId(bUnitId)
         const pros = (certificates || []).map(({ value }) => {
             return this.metaService.getTableColumnsByMetaId(value)
         })
@@ -51,7 +55,7 @@ export class CertificateService {
      * 根据业务单元 id 和 凭证 metaId 获取对应table的数据
      */
     async getCertificateMetaToken(bUnitId: string, metaId: string) {
-        const data = await this.baseService.getCertificateMetaToken(bUnitId, metaId)
+        const data = await this.bCertificateService.getCertificateMetaToken(bUnitId, metaId)
 
         return {
             // 添加操作列数据
@@ -67,5 +71,37 @@ export class CertificateService {
                 ],
             })),
         } as ITableData
+    }
+
+    /** 获取原单form数据 */
+    async getSourceForm(bUnitId: string, metaId: string, tokenId: string) {
+        // 获取原单 metaId tokenId
+        const { sourceMetaId, sourceTokenId } = await this.bCertificateApi.getSourceBill(
+            bUnitId,
+            metaId,
+            tokenId,
+        )
+        const [{ ui_verifySchema, fieldsConfig, fieldsOrder }, formData] = await Promise.all([
+            // 获取原单 form 定义
+            this.metaService.getFormSchemaByMetaId(sourceMetaId),
+            // 获取原单 form 数据
+            this.baseService.getFormDataByMetaIdAndTokenId(sourceMetaId, sourceTokenId),
+        ])
+
+        const schema: IFormSchema = {
+            ...fieldsConfig,
+            ui_verifySchema,
+            ui_readonly: true,
+            ui_order: ['_default'],
+            _default: {
+                ui_title: '默认',
+                ui_order: fieldsOrder,
+            },
+        }
+
+        return {
+            schema,
+            data: formData,
+        }
     }
 }

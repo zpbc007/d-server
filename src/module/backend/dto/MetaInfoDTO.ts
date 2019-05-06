@@ -1,9 +1,11 @@
+import { FieldDataType } from './TokenDataDto'
+
 export interface MetaInfoDTO {
     metaId: string
     tokenMetaName: string
     key: string
     caption: string // 显示字段
-    fkeytype: string // fkey对应的数据的类型（包含select）
+    fkeytype: FieldDataType // fkey对应的数据的类型（包含select）
     visible: boolean // 是否可见
     readOnly: boolean // 是否只读
     required: boolean // 是否必填

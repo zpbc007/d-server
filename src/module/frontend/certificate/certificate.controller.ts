@@ -27,4 +27,14 @@ export class CertificateController {
     getCertificateMetaToken(@Param('bUnitId') bUnitId: string, @Param('metaId') metaId: string) {
         return this.service.getCertificateMetaToken(bUnitId, metaId)
     }
+
+    /** 获取原单 form 定义 */
+    @Get('/source/business-unit-id/:bUnitId/meta-id/:metaId/token-id/:tokenId')
+    getSourceForm(
+        @Param('bUnitId') bUnitId: string,
+        @Param('metaId') metaId: string,
+        @Param('tokenId') tokenId: string,
+    ) {
+        return this.service.getSourceForm(bUnitId, metaId, tokenId)
+    }
 }

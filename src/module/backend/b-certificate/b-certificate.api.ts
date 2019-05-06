@@ -3,6 +3,7 @@ import reqIns from '@utils/z-axios'
 import { BusinessUnitDTO } from '@module-back/dto/BusinessUnitDTO'
 import { CertificateDTO } from '@module-back/dto/CertificateDTO'
 import { TokenDataDto } from '@module-back/dto/TokenDataDto'
+import { SourceBillDTO } from '@module-back/dto/SourceBillDTO'
 
 @Injectable()
 export class BCertificateApi {
@@ -21,5 +22,14 @@ export class BCertificateApi {
         return reqIns
             .setUrl(`certificate/business-unit-id/${bUnitId}/certificate-meta-id/${metaId}`)
             .get<TokenDataDto[]>()
+    }
+
+    /** 根据凭证查看原单,返回源单的 metaId 和 tokenId */
+    getSourceBill(bUnitId: string, metaId: string, tokenId: string) {
+        return reqIns
+            .setUrl(
+                `/certificate/getSourceBill/business-unit-id/${bUnitId}/certificate-tokenId/${tokenId}/certificate-meta-id/${metaId}`,
+            )
+            .get<SourceBillDTO>()
     }
 }
