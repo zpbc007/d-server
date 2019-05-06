@@ -1,6 +1,7 @@
 import { ZAxios } from '@hinata_hyuga/z-axios'
 import { ServerConfig } from '@config/server'
 import { AxiosResponse } from 'axios'
+import { HttpException } from '@nestjs/common'
 const { host, port } = ServerConfig.backend
 
 const reqIns = new ZAxios({
@@ -29,7 +30,9 @@ reqIns.addResInterceptor(
         return Promise.reject(msg)
     },
     (error) => {
-        return Promise.reject(error)
+        return Promise.reject(
+            new HttpException({ message: error.message, config: error.config }, error.code as any),
+        )
     },
 )
 

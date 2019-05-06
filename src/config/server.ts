@@ -9,6 +9,9 @@ export const ServerConfig = {
     },
     backend: {
         port: 9090,
-        host: '172.16.0.3',
+        // 丛
+        // host: '172.16.0.3',
+        // 高
+        host: '172.16.0.6',
     },
 }
