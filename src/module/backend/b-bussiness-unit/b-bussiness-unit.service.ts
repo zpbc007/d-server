@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
-export class BussinessUnitService {
+export class BBussinessUnitService {
     getBUnitByUserId(userId: string) {
         return [
             {
