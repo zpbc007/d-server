@@ -12,8 +12,10 @@
     "paths": {
       "@config/*": ["config/*"],
       "@utils/*": ["utils/*"],
+      "@module-front/*": ["module/frontend/*"],
       "@module-back/*": ["module/backend/*"],
-      "@type-comp/*": ["type/component/*"]
+      "@type-comp/*": ["type/component/*"],
+      "@interceptor/*": ["interceptors/*"]
     }
   },
   "exclude": ["node_modules"]

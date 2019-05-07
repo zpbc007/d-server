@@ -8,10 +8,21 @@ import {
 import { CertificateController } from './certificate.controller'
 import { CertificateService } from './certificate.service'
 import { BaseModule, BaseService } from '@module-back/base'
+import { AuthModule } from '../auth/auth.module'
+import { OauthModule, OAuthApi } from '@module-back/oauth'
+import { AuthService } from '@module-front/auth/auth.service'
 
 @Module({
-    imports: [BaseModule, MetaModule, BCertificateModule],
+    imports: [OauthModule, AuthModule, BaseModule, MetaModule, BCertificateModule],
     controllers: [CertificateController],
-    providers: [BaseService, MetaService, BCertificateService, BCertificateApi, CertificateService],
+    providers: [
+        OAuthApi,
+        AuthService,
+        BaseService,
+        MetaService,
+        BCertificateService,
+        BCertificateApi,
+        CertificateService,
+    ],
 })
 export class CertificateModule {}

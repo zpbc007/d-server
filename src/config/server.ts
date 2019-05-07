@@ -13,5 +13,11 @@ export const ServerConfig = {
         // host: '172.16.0.3',
         // 高
         host: '172.16.0.6',
+        client_id: 'toptimus_client',
+        client_secret: '123456',
+    },
+    auth: {
+        secret: '123456',
+        expiresIn: 60,
     },
 }

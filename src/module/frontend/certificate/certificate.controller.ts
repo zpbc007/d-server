@@ -1,6 +1,19 @@
-import { Controller, Get, Param } from '@nestjs/common'
+import {
+    Controller,
+    Get,
+    Param,
+    UseInterceptors,
+    UseGuards,
+    UnauthorizedException,
+} from '@nestjs/common'
 import { CertificateService } from './certificate.service'
 import { BCertificateService } from '@module-back/b-certificate/b-certificate.service'
+import { OAuthInterceptor } from '@interceptor/oauth.interceptor'
+import { AuthGuard } from '@nestjs/passport'
+import { AuthData } from 'dectorators/AuthData'
+import { JwtPayload } from '../auth/jwt-payload.interface'
+
+let num = 0
 
 @Controller('certificate')
 export class CertificateController {
@@ -28,7 +41,7 @@ export class CertificateController {
         return this.service.getCertificateMetaToken(bUnitId, metaId)
     }
 
-    /** 获取原单 form 定义 */
+    /** 获取原单 form 定义与数据 */
     @Get('/source/business-unit-id/:bUnitId/meta-id/:metaId/token-id/:tokenId')
     getSourceForm(
         @Param('bUnitId') bUnitId: string,
@@ -36,5 +49,29 @@ export class CertificateController {
         @Param('tokenId') tokenId: string,
     ) {
         return this.service.getSourceForm(bUnitId, metaId, tokenId)
+    }
+
+    /** 接收凭证 */
+    @Get('/receive/business-unit-id/:bUnitId/meta-id/:metaId/token-id/:tokenId')
+    receiveCertificate(
+        @Param('bUnitId') bUnitId: string,
+        @Param('metaId') metaId: string,
+        @Param('tokenId') tokenId: string,
+    ) {
+        return this.service.receiveCertificate(bUnitId, metaId, tokenId)
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(OAuthInterceptor)
+    @Get('/test')
+    testInterceptor(@AuthData() authData: JwtPayload) {
+        console.log(`in testInterceptor controller: ${num}`)
+        if (num % 2 === 0) {
+            num++
+            throw new UnauthorizedException()
+        }
+
+        num++
+        return 'success'
     }
 }

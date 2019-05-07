@@ -104,4 +104,14 @@ export class CertificateService {
             data: formData,
         }
     }
+
+    /** 接收凭证 */
+    async receiveCertificate(bUnitId: string, metaId: string, tokenId: string) {
+        const { receiveMetaId, billTokenId } = await this.bCertificateApi.receiveCertificate(
+            bUnitId,
+            metaId,
+            tokenId,
+        )
+        /** TODO: 通过返回的 metaId tokenId 获取页面信息  */
+    }
 }
