@@ -4,6 +4,7 @@ import { BusinessUnitDTO } from '@module-back/dto/BusinessUnitDTO'
 import { CertificateDTO } from '@module-back/dto/CertificateDTO'
 import { TokenDataDto } from '@module-back/dto/TokenDataDto'
 import { SourceBillDTO } from '@module-back/dto/SourceBillDTO'
+import { CertificateReceiveDTO } from '@module-back/dto/CertificateReceiveDTO'
 
 @Injectable()
 export class BCertificateApi {
@@ -31,5 +32,14 @@ export class BCertificateApi {
                 `/certificate/getSourceBill/business-unit-id/${bUnitId}/certificate-tokenId/${tokenId}/certificate-meta-id/${metaId}`,
             )
             .get<SourceBillDTO>()
+    }
+
+    /** 接收凭证 */
+    receiveCertificate(bUnitId: string, metaId: string, tokenId: string) {
+        return reqIns
+            .setUrl(
+                `/getTargetBill/business-unit-id/${bUnitId}/certificate-tokenId/${tokenId}/certificate-meta-id/${metaId}`,
+            )
+            .get<CertificateReceiveDTO>()
     }
 }

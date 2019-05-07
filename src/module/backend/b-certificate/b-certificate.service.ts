@@ -26,8 +26,6 @@ export class BCertificateService {
      * @param bUnitId 业务单元id
      */
     async getCertificateMetaByBUnitId(bUnitId: string) {
-        // TODO: 测试用
-        bUnitId = 'caigouzhixing'
         // 凭证列表
         const res = await this.certificateApi.getCertificateMetaByBUnitId(bUnitId)
 
@@ -39,8 +37,6 @@ export class BCertificateService {
 
     /** 根据业务单元 id 和 凭证 metaId 获取对应table的数据 */
     async getCertificateMetaToken(bUnitId: string, metaId: string) {
-        bUnitId = 'caigouzhixing'
-        metaId = 'xindian_caigoushenqidan_bill_beicha'
         const res = await this.certificateApi.getCertificateMetaToken(bUnitId, metaId)
 
         return res.map(({ tokenId, fields = [] }) => {
