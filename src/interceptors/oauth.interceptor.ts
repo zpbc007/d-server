@@ -24,11 +24,6 @@ export class OAuthInterceptor implements NestInterceptor {
         const that = this
         return next.handle().pipe(
             catchError((err) => {
-                // 1. 判断是否为401请求
-                // 2. 通过refresh token 请求 access token
-                // 3. 判断是否为401
-                // 4. 直接返回401
-
                 // 1. 如果不是401请求直接抛出异常
                 if (!that.isUnauthorizedException(err)) {
                     return throwError(err)
@@ -38,7 +33,10 @@ export class OAuthInterceptor implements NestInterceptor {
                 const { refresh_token } = context.getArgByIndex(0).user as JwtPayload
                 Logger.warn(`access_token is timeout, will refresh it`, ContextStr)
 
-                return from(that.oAuthApi.createAccessTokenByRefreshToken(refresh_token)).pipe(
+                // 3. 请求新的token
+                const refreshOb = from(
+                    that.oAuthApi.createAccessTokenByRefreshToken(refresh_token),
+                ).pipe(
                     // 请求新的 access_token 时出现异常
                     catchError((fetchTokenErr) => {
                         if (!that.isUnauthorizedException(fetchTokenErr)) {
@@ -48,7 +46,29 @@ export class OAuthInterceptor implements NestInterceptor {
                         Logger.error(`refresh_token is timeout, please relogin`, ContextStr)
                         return throwError(new UnauthorizedException())
                     }),
+                )
+
+                // 4. 请求成功替换 context
+                refreshOb.subscribe(({ refresh_token: new_refresh_token, access_token }) => {
+                    context.getArgByIndex(0).user = {
+                        refresh_token: new_refresh_token,
+                        access_token,
+                    }
+                })
+
+                return refreshOb.pipe(
                     concat(next.handle()),
+                    catchError((nextExecError) => {
+                        if (!that.isUnauthorizedException(nextExecError)) {
+                            return throwError(nextExecError)
+                        }
+
+                        Logger.error(
+                            `allready refresh token but still get 401 error, please contact admin`,
+                            ContextStr,
+                        )
+                        return throwError(new UnauthorizedException())
+                    }),
                     toArray(),
                     map(
                         async ([{ access_token, refresh_token: new_refresh_token }, data]: [

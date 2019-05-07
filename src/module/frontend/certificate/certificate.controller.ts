@@ -65,7 +65,7 @@ export class CertificateController {
     @UseInterceptors(OAuthInterceptor)
     @Get('/test')
     testInterceptor(@AuthData() authData: JwtPayload) {
-        console.log(`in testInterceptor controller: ${num}`)
+        console.log(`in testInterceptor controller, num: ${num}, token: ${authData.access_token}`)
         if (num % 2 === 0) {
             num++
             throw new UnauthorizedException()
