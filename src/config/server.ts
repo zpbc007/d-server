@@ -18,6 +18,6 @@ export const ServerConfig = {
     },
     auth: {
         secret: '123456',
-        expiresIn: 60,
+        expiresIn: 60 * 60 * 12,
     },
 }
