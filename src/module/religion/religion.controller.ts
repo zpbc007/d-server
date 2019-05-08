@@ -37,6 +37,10 @@ export class ReligionController {
                 authArr: [],
                 /** 用户id */
                 userId: '1',
+                /** 粉丝数量 */
+                fansNum: 50,
+                /** 关注数量 */
+                followNum: 99,
             }
         }
 
@@ -51,6 +55,10 @@ export class ReligionController {
                 authArr: [],
                 /** 用户id */
                 userId: '2',
+                /** 粉丝数量 */
+                fansNum: 100,
+                /** 关注数量 */
+                followNum: 200,
             }
         }
     }
