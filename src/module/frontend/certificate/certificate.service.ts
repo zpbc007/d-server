@@ -5,6 +5,7 @@ import { ITableSchema, IColumn } from '@type-comp/table-schema'
 import { ITableData } from '@type-comp/table-data'
 import { BaseService } from '@module-back/base'
 import { IFormSchema } from '@type-comp/form-schema'
+import { BillService } from '@module-back/bill'
 
 const operationKey = '_operaction'
 
@@ -15,6 +16,7 @@ export class CertificateService {
         private readonly bCertificateApi: BCertificateApi,
         private readonly metaService: MetaService,
         private readonly baseService: BaseService,
+        private readonly billService: BillService,
     ) {}
 
     // 根据业务单元 id 获取对应的所有的 table 列定义
@@ -112,6 +114,10 @@ export class CertificateService {
             metaId,
             tokenId,
         )
-        /** TODO: 通过返回的 metaId tokenId 获取页面信息  */
+
+        return {
+            metaId: receiveMetaId,
+            tokenId: billTokenId,
+        }
     }
 }

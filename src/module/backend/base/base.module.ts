@@ -4,6 +4,6 @@ import { BaseService } from './base.service'
 
 @Module({
     providers: [BaseApi, BaseService],
-    exports: [BaseApi],
+    exports: [BaseApi, BaseService],
 })
 export class BaseModule {}

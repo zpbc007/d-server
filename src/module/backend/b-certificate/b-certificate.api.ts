@@ -15,13 +15,13 @@ export class BCertificateApi {
 
     /** 根据业务单元id取凭证meta一览 */
     getCertificateMetaByBUnitId(bUnitId: string) {
-        return reqIns.setUrl(`certificate/business-unit-id/${bUnitId}`).get<CertificateDTO[]>()
+        return reqIns.setUrl(`/certificate/business-unit-id/${bUnitId}`).get<CertificateDTO[]>()
     }
 
     /** 根据业务单元 id 和 凭证 metaId 获取对应table的数据 */
     getCertificateMetaToken(bUnitId: string, metaId: string) {
         return reqIns
-            .setUrl(`certificate/business-unit-id/${bUnitId}/certificate-meta-id/${metaId}`)
+            .setUrl(`/certificate/business-unit-id/${bUnitId}/certificate-meta-id/${metaId}`)
             .get<TokenDataDto[]>()
     }
 
@@ -38,7 +38,7 @@ export class BCertificateApi {
     receiveCertificate(bUnitId: string, metaId: string, tokenId: string) {
         return reqIns
             .setUrl(
-                `/getTargetBill/business-unit-id/${bUnitId}/certificate-tokenId/${tokenId}/certificate-meta-id/${metaId}`,
+                `/certificate/getTargetBill/business-unit-id/${bUnitId}/certificate-tokenId/${tokenId}/certificate-meta-id/${metaId}`,
             )
             .get<CertificateReceiveDTO>()
     }

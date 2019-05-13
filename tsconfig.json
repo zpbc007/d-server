@@ -15,7 +15,8 @@
       "@module-front/*": ["module/frontend/*"],
       "@module-back/*": ["module/backend/*"],
       "@type-comp/*": ["type/component/*"],
-      "@interceptor/*": ["interceptors/*"]
+      "@interceptor/*": ["interceptors/*"],
+      "@transformer/*": ["transformers/*"]
     }
   },
   "exclude": ["node_modules"]
