@@ -29,11 +29,18 @@ export class OAuthInterceptor implements NestInterceptor {
                     return throwError(err)
                 }
 
-                // 2. 从 request 中获取 refresh_token
-                const { refresh_token } = context.getArgByIndex(0).user as JwtPayload
+                const user = context.getArgByIndex(0).user as JwtPayload
+
+                // 2. 请求未携带token信息
+                if (!user || !user.refresh_token) {
+                    return throwError(err)
+                }
+
+                // 3. 从 request 中获取 refresh_token
+                const { refresh_token } = user
                 Logger.warn(`access_token is timeout, will refresh it`, ContextStr)
 
-                // 3. 请求新的token
+                // 4. 请求新的token
                 const refreshOb = from(
                     that.oAuthApi.createAccessTokenByRefreshToken(refresh_token),
                 ).pipe(
@@ -48,7 +55,7 @@ export class OAuthInterceptor implements NestInterceptor {
                     }),
                 )
 
-                // 4. 请求成功替换 context
+                // 5. 请求成功,替换 context
                 refreshOb.subscribe(({ refresh_token: new_refresh_token, access_token }) => {
                     context.getArgByIndex(0).user = {
                         refresh_token: new_refresh_token,
@@ -71,14 +78,16 @@ export class OAuthInterceptor implements NestInterceptor {
                     }),
                     toArray(),
                     map(
-                        async ([{ access_token, refresh_token: new_refresh_token }, data]: [
-                            OAuthDTO,
-                            any
-                        ]) => {
+                        async ([
+                            { access_token, refresh_token: new_refresh_token, user_id, roles },
+                            data,
+                        ]: [OAuthDTO, any]) => {
                             Logger.warn(`refresh token success`, ContextStr)
                             const token = await that.authService.signIn({
                                 access_token,
                                 refresh_token: new_refresh_token,
+                                user_id,
+                                roles,
                             })
                             return {
                                 data,

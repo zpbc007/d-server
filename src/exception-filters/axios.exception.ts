@@ -1,5 +1,14 @@
 import { HttpException, HttpStatus } from '@nestjs/common'
-import { AxiosError } from 'axios'
+import { AxiosError, AxiosRequestConfig } from 'axios'
+
+export interface AxiosExceptionRes {
+    config: AxiosRequestConfig
+    response: {
+        data: any
+        status: number
+        statusText: string
+    }
+}
 
 export class AxiosException extends HttpException {
     constructor({ config, response: { data, status, statusText } }: AxiosError) {

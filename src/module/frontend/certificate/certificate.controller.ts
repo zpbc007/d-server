@@ -22,9 +22,12 @@ export class CertificateController {
         private readonly baseService: BCertificateService,
     ) {}
 
-    @Get('user-id/:userId')
-    getBussinessUnitByUserId(@Param('userId') userId: string) {
-        return this.baseService.getBussinessUnitByUserId(userId)
+    /** 获取业务单元一览 */
+    @Get('business-unit')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(OAuthInterceptor)
+    getBussinessUnitByUserId(@AuthData() authData: JwtPayload) {
+        return this.baseService.getBussinessUnitByUserId(authData.user_id)
     }
 
     /** 根据业务单元 id 获取对应的所有的 table 列定义 */

@@ -20,7 +20,7 @@ const getBaseVerify = (required: boolean) => ({
 })
 
 const transformMap: {
-    [key in FkeyField['dataType'] | 'DEFAULT']?: (
+    [key in FkeyField['dataType'] | '_DEFAULT']?: (
         info: MetaInfoDTO,
         service: MetaService,
     ) => ITransFormResult
@@ -66,6 +66,18 @@ const transformMap: {
             })
         })
     },
+    _DEFAULT: ({ required, readOnly, caption }) => {
+        return {
+            config: {
+                ...getBaseConfig(caption, readOnly),
+                ui_widget: 'input',
+            },
+            verify: {
+                ...getBaseVerify(required),
+                ui_type: 'string',
+            },
+        }
+    },
 }
 
 export async function MetaInfoDtoToFormSchema(
@@ -86,7 +98,7 @@ export async function MetaInfoDtoToFormSchema(
         const { visible, key, fkeytype } = fieldInfo
         if (visible) {
             fieldsOrder.push(key)
-            pros.push(transformMap[fkeytype](fieldInfo, metaService))
+            pros.push((transformMap[fkeytype] || transformMap._DEFAULT)(fieldInfo, metaService))
         }
     }
 

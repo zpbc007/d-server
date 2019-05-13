@@ -4,8 +4,7 @@ import { MetaService } from '@module-back/meta'
 import { ITableSchema, IColumn } from '@type-comp/table-schema'
 import { ITableData } from '@type-comp/table-data'
 import { BaseService } from '@module-back/base'
-import { IFormSchema } from '@type-comp/form-schema'
-import { BillService } from '@module-back/bill'
+import { MergeSchemaService } from '@module-front/merge-schema'
 
 const operationKey = '_operaction'
 
@@ -16,7 +15,7 @@ export class CertificateService {
         private readonly bCertificateApi: BCertificateApi,
         private readonly metaService: MetaService,
         private readonly baseService: BaseService,
-        private readonly billService: BillService,
+        private readonly mergeSchemaService: MergeSchemaService,
     ) {}
 
     // 根据业务单元 id 获取对应的所有的 table 列定义
@@ -83,26 +82,15 @@ export class CertificateService {
             metaId,
             tokenId,
         )
-        const [{ ui_verifySchema, fieldsConfig, fieldsOrder }, formData] = await Promise.all([
+        const [formConfig, formData] = await Promise.all([
             // 获取原单 form 定义
             this.metaService.getFormSchemaByMetaId(sourceMetaId),
             // 获取原单 form 数据
             this.baseService.getFormDataByMetaIdAndTokenId(sourceMetaId, sourceTokenId),
         ])
 
-        const schema: IFormSchema = {
-            ...fieldsConfig,
-            ui_verifySchema,
-            ui_readonly: true,
-            ui_order: ['_default'],
-            _default: {
-                ui_title: '默认',
-                ui_order: fieldsOrder,
-            },
-        }
-
         return {
-            schema,
+            schema: this.mergeSchemaService.createDefaultFormSchema(formConfig, true),
             data: formData,
         }
     }

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { BillApi } from './bill.api'
+import { BBillApi } from './b-bill.api'
 import { TokenDataDtoToFormData } from '@transformer/token-data-dto.form-data'
 
 @Injectable()
-export class BillService {
-    constructor(private readonly billApi: BillApi) {}
+export class BBillService {
+    constructor(private readonly billApi: BBillApi) {}
 
     async getFormDataByMetaIdAndTokenId(metaId: string, tokenId: string) {
         const data = await this.billApi.getBillToken(metaId, tokenId)

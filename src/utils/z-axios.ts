@@ -42,7 +42,7 @@ reqIns.addResInterceptor(
         return Promise.reject(msg)
     },
     (error) => {
-        throw new AxiosException(error.config)
+        throw new AxiosException(error)
     },
 )
 

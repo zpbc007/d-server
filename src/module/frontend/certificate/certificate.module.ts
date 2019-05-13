@@ -11,10 +11,17 @@ import { BaseModule, BaseService } from '@module-back/base'
 import { AuthModule } from '../auth/auth.module'
 import { OauthModule, OAuthApi } from '@module-back/oauth'
 import { AuthService } from '@module-front/auth/auth.service'
-import { BillModule, BillService } from '@module-back/bill'
+import { MergeSchemaModule, MergeSchemaService } from '@module-front/merge-schema'
 
 @Module({
-    imports: [OauthModule, AuthModule, BaseModule, MetaModule, BCertificateModule, BillModule],
+    imports: [
+        OauthModule,
+        AuthModule,
+        BaseModule,
+        MetaModule,
+        BCertificateModule,
+        MergeSchemaModule,
+    ],
     controllers: [CertificateController],
     providers: [
         OAuthApi,
@@ -24,7 +31,7 @@ import { BillModule, BillService } from '@module-back/bill'
         BCertificateService,
         BCertificateApi,
         CertificateService,
-        BillService,
+        MergeSchemaService,
     ],
 })
 export class CertificateModule {}

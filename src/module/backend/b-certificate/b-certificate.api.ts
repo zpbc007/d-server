@@ -10,7 +10,7 @@ import { CertificateReceiveDTO } from '@module-back/dto/CertificateReceiveDTO'
 export class BCertificateApi {
     /** 根据组织架构Id取得其下的业务单元一览 */
     getBussinessUnitByOrgId(orgId: string) {
-        return reqIns.setUrl(`certificate/org-id/${orgId}`).get<BusinessUnitDTO[]>()
+        return reqIns.setUrl(`/certificate/org-id/${orgId}`).get<BusinessUnitDTO[]>()
     }
 
     /** 根据业务单元id取凭证meta一览 */
