@@ -16,7 +16,8 @@
       "@module-back/*": ["module/backend/*"],
       "@type-comp/*": ["type/component/*"],
       "@interceptor/*": ["interceptors/*"],
-      "@transformer/*": ["transformers/*"]
+      "@transformer/*": ["transformers/*"],
+      "@exception-filter/*": ["exception-filters/*"]
     }
   },
   "exclude": ["node_modules"]

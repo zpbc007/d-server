@@ -1,7 +1,7 @@
 import { ZAxios } from '@hinata_hyuga/z-axios'
 import { ServerConfig } from '@config/server'
 import { AxiosResponse, AxiosRequestConfig } from 'axios'
-import { HttpException } from '@nestjs/common'
+import { AxiosException } from '@exception-filter/axios.exception'
 const { host, port } = ServerConfig.backend
 
 interface ICustomConfig extends AxiosRequestConfig {
@@ -42,9 +42,7 @@ reqIns.addResInterceptor(
         return Promise.reject(msg)
     },
     (error) => {
-        return Promise.reject(
-            new HttpException({ message: error.message, config: error.config }, error.code as any),
-        )
+        throw new AxiosException(error.config)
     },
 )
 
