@@ -12,6 +12,20 @@ const transformMap: {
             ui_title: caption,
         }
     },
+    DATE: ({ caption }) => {
+        return {
+            ui_widget: 'date',
+            ui_align: 'center',
+            ui_title: caption,
+        }
+    },
+    BOOLEAN: ({ caption }) => {
+        return {
+            ui_widget: 'boolean',
+            ui_align: 'center',
+            ui_title: caption,
+        }
+    },
 }
 
 export function MetaInfoDtoToTableSchema(metaInfoDtoArr: MetaInfoDTO[]) {

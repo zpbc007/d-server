@@ -66,6 +66,18 @@ const transformMap: {
             })
         })
     },
+    BOOLEAN: ({ required, readOnly, caption }) => {
+        return {
+            config: {
+                ...getBaseConfig(caption, readOnly),
+                ui_widget: 'checkbox',
+            },
+            verify: {
+                ...getBaseVerify(required),
+                ui_type: 'boolean',
+            },
+        }
+    },
     _DEFAULT: ({ required, readOnly, caption }) => {
         return {
             config: {

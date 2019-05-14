@@ -1,5 +1,5 @@
 export interface IColumn {
-    ui_widget: 'action' | 'index' | 'text'
+    ui_widget: 'action' | 'index' | 'text' | 'date' | 'boolean'
     ui_align?: 'left' | 'right' | 'center'
     ui_width?: number
     ui_title?: string

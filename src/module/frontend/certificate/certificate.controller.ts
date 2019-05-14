@@ -37,7 +37,7 @@ export class CertificateController {
     }
 
     /**
-     * 根据业务单元 id 和 凭证 metaId 获取对应table的数据
+     * 根据业务单元 id 和 凭证 metaId 获取对应 table 的数据
      */
     @Get('/business-unit-id/:bUnitId/meta-id/:metaId')
     getCertificateMetaToken(@Param('bUnitId') bUnitId: string, @Param('metaId') metaId: string) {

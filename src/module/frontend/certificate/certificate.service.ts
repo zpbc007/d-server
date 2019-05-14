@@ -6,7 +6,7 @@ import { ITableData } from '@type-comp/table-data'
 import { BaseService } from '@module-back/base'
 import { MergeSchemaService } from '@module-front/merge-schema'
 
-const operationKey = '_operaction'
+const operationKey = '_operation'
 
 @Injectable()
 export class CertificateService {

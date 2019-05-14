@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { BCertificateApi } from './b-certificate.api'
 import { IListItem } from '@type-comp/list-item'
+import { TokenDataDtoToTableData } from '@transformer/token-data-dto.table-data'
 
 @Injectable()
 export class BCertificateService {
@@ -39,17 +40,6 @@ export class BCertificateService {
     async getCertificateMetaToken(bUnitId: string, metaId: string) {
         const res = await this.certificateApi.getCertificateMetaToken(bUnitId, metaId)
 
-        return res.map(({ tokenId, fields = [] }) => {
-            return {
-                tokenId,
-                ...fields.reduce(
-                    (data, { key, jsonData }) => ({
-                        ...data,
-                        [key]: jsonData,
-                    }),
-                    {} as any,
-                ),
-            }
-        })
+        return TokenDataDtoToTableData(res)
     }
 }
