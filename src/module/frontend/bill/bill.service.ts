@@ -5,6 +5,7 @@ import { MergeSchemaService } from '@module-front/merge-schema'
 import { IListItem } from '@type-comp/list-item'
 import { ITableSchema, IColumn } from '@type-comp/table-schema'
 import { ITableData } from '@type-comp/table-data'
+import { addQuery } from '@hinata_hyuga/z-axios'
 
 const operationKey = '_operation'
 
@@ -18,20 +19,26 @@ export class BillService {
     ) {}
 
     /** 获取表单页面定义与数据 */
-    async getBillPageByMetaIdAndTokenId(metaId: string, tokenId: string) {
-        const [formConfig, data] = await Promise.all([
+    async getBillPageByMetaIdAndTokenId(bUnitId: string, metaId: string, tokenId: string) {
+        // 获取 from 定义与数据
+        const [formConfig, formData, tableList] = await Promise.all([
+            // 获取 from 定义
             this.metaService.getFormSchemaByMetaId(metaId),
+            // 获取 form 数据
             this.backBillService.getFormDataByMetaIdAndTokenId(metaId, tokenId),
+            // 获取所有的 table 定义
+            this.getRelMetaAndTableColumns(bUnitId, metaId, tokenId),
         ])
 
         return {
-            schema: this.mergeSchemaService.createDefaultFormSchema(formConfig, false),
-            data,
+            formSchema: this.mergeSchemaService.createDefaultFormSchema(formConfig, false),
+            formData,
+            tableList,
         }
     }
 
     /** 获取业务节点的关联meta */
-    async getRelMetaAndTableColumns(bUnitId: string, metaId?: string) {
+    async getRelMetaAndTableColumns(bUnitId: string, metaId?: string, tokenId?: string) {
         const metaList = await this.backBillApi.getRelMeta(bUnitId, metaId)
         const columnsPros = (metaList || []).map(({ tokenMetaId }) => {
             return this.metaService.getTableColumnsByMetaId(tokenMetaId)
@@ -60,7 +67,10 @@ export class BillService {
                         ui_showRowSelect: false,
                         ui_rowKey: 'tokenId',
                         ui_order: columnsOrder,
-                        ui_dataUrl: `/bill/rel-data/${bUnitId}/${tokenMetaId}`,
+                        ui_dataUrl: addQuery(`/bill/rel-data/${bUnitId}/${tokenMetaId}`, {
+                            preMetaId: metaId,
+                            preTokenId: tokenId,
+                        }),
                     },
                 },
             } as IListItem<{ metaId: string; column: ITableSchema }>

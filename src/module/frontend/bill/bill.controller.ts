@@ -6,12 +6,13 @@ export class BillController {
     constructor(private readonly billService: BillService) {}
 
     /** 获取表单页面定义与数据 */
-    @Get('/page/:metaId/:tokenId')
+    @Get('/page/:bUnitId/:metaId/:tokenId')
     getBillPageByMetaIdAndTokenId(
+        @Param('bUnitId') bUnitId: string,
         @Param('metaId') metaId: string,
         @Param('tokenId') tokenId: string,
     ) {
-        return this.billService.getBillPageByMetaIdAndTokenId(metaId, tokenId)
+        return this.billService.getBillPageByMetaIdAndTokenId(bUnitId, metaId, tokenId)
     }
 
     /** 获取业务节点的关联 meta 及其对应的 table 定义 */
