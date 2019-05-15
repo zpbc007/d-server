@@ -4,12 +4,14 @@ import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 import { ServerConfig } from '@config/server'
 import { JwtStrategy } from './jwt.strategy'
+import { OauthModule, OAuthApi } from '@module-back/oauth'
 const {
     auth: { secret, expiresIn },
 } = ServerConfig
 
 @Module({
     imports: [
+        OauthModule,
         PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.register({
             secretOrPrivateKey: secret,
@@ -18,6 +20,7 @@ const {
             },
         }),
     ],
-    providers: [PassportModule, AuthService, JwtStrategy],
+    providers: [PassportModule, AuthService, JwtStrategy, OAuthApi],
+    exports: [AuthService],
 })
 export class AuthModule {}

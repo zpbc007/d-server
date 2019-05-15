@@ -1,4 +1,4 @@
-interface IRelationSchema {
+export interface IRelationSchema {
     [key: string]: {
         [key: string]: any
     }
@@ -10,7 +10,7 @@ interface IGroup {
 }
 
 export interface IVerifySchema {
-    ui_type: 'array' | 'boolean' | 'date' | 'integer' | 'number' | 'string'
+    ui_type: 'array' | 'boolean' | 'date' | 'integer' | 'number' | 'select' | 'string'
 }
 
 export interface IArrayConfig {

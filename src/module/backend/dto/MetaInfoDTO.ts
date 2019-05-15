@@ -10,7 +10,7 @@ export interface MetaInfoDTO {
     readOnly: boolean // 是否只读
     required: boolean // 是否必填
     metaName: string // 关联meta的meta名
-    fKey: string // 关联的key
+    fkey: string // 关联的key
     metaKey: string // 关联meta的ID
     order_: string // 顺序
 }

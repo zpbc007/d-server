@@ -19,8 +19,8 @@ export interface ITableSchema {
     ui_rowKey: string
     /** table高度 */
     ui_height?: number
-    /** 是否显示行选择 */
-    ui_showRowSelect?: boolean
+    /** 选择模式 默认为 false */
+    ui_selectMode?: 'single' | 'multi'
     /** 列顺序 */
     ui_order: string[]
     /** 数据url */

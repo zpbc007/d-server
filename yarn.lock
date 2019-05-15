@@ -156,10 +156,10 @@
   dependencies:
     find-up "^2.1.0"
 
-"@hinata_hyuga/z-axios@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.npmjs.org/@hinata_hyuga/z-axios/-/z-axios-1.0.11.tgz#355ecd151a0d07cb20f2f7134f402614b93423bb"
-  integrity sha512-cK7hl0fBYHT4fKDDQFme9ior1mB519Y+0jX23V/FzC4ifhzh0MDPUeKo97IklrBEprHHvTXePbKKWdMDRaq+tA==
+"@hinata_hyuga/z-axios@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.npmjs.org/@hinata_hyuga/z-axios/-/z-axios-1.0.13.tgz#5ed3dc791db238c503865468be1b33761b038ba1"
+  integrity sha512-7w1DLTMasdqV3DO5sajIoP8vybUEPvjfzUMA4fXObaQmzfeuNXYjnilPcwmFdxqMOS7sBaPUSOeDOUIhVwMT7A==
   dependencies:
     url "^0.11.0"
 

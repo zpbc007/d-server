@@ -1,19 +1,10 @@
-import {
-    Controller,
-    Get,
-    Param,
-    UseInterceptors,
-    UseGuards,
-    UnauthorizedException,
-} from '@nestjs/common'
+import { Controller, Get, Param, UseInterceptors, UseGuards } from '@nestjs/common'
 import { CertificateService } from './certificate.service'
 import { BCertificateService } from '@module-back/b-certificate/b-certificate.service'
 import { OAuthInterceptor } from '@interceptor/oauth.interceptor'
 import { AuthGuard } from '@nestjs/passport'
 import { AuthData } from 'dectorators/AuthData'
 import { JwtPayload } from '../auth/jwt-payload.interface'
-
-let num = 0
 
 @Controller('certificate')
 export class CertificateController {
@@ -62,19 +53,5 @@ export class CertificateController {
         @Param('tokenId') tokenId: string,
     ) {
         return this.service.receiveCertificate(bUnitId, metaId, tokenId)
-    }
-
-    @UseGuards(AuthGuard('jwt'))
-    @UseInterceptors(OAuthInterceptor)
-    @Get('/test')
-    testInterceptor(@AuthData() authData: JwtPayload) {
-        console.log(`in testInterceptor controller, num: ${num}, token: ${authData.access_token}`)
-        if (num % 2 === 0) {
-            num++
-            throw new UnauthorizedException()
-        }
-
-        num++
-        return 'success'
     }
 }

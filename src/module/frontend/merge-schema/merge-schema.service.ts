@@ -7,10 +7,12 @@ export class MergeSchemaService {
     createDefaultFormSchema(
         {
             ui_verifySchema,
+            ui_relationSchema,
             fieldsOrder,
             fieldsConfig,
         }: {
             ui_verifySchema: IFormSchema['ui_verifySchema']
+            ui_relationSchema: IFormSchema['ui_relationSchema']
             fieldsConfig: { [key: string]: IFormItem }
             fieldsOrder: string[]
         },
@@ -19,6 +21,7 @@ export class MergeSchemaService {
         return {
             ...fieldsConfig,
             ui_verifySchema,
+            ui_relationSchema,
             ui_readonly: readonly,
             ui_order: ['_default'],
             _default: {

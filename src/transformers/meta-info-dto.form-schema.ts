@@ -5,7 +5,7 @@ import { MetaService } from '@module-back/meta'
 
 interface ITransFormFieldResult {
     config: IFormItem
-    verify: IVerifyConfig
+    verify?: IVerifyConfig
 }
 
 type ITransFormResult = ITransFormFieldResult | Promise<ITransFormFieldResult>
@@ -66,6 +66,27 @@ const transformMap: {
             })
         })
     },
+    SELECT: ({ caption, required, readOnly, metaKey }) => {
+        return {
+            config: {
+                ...getBaseConfig(caption, readOnly),
+                ui_widget: 'input_drawer',
+                ui_metaId: metaKey,
+            },
+            verify: {
+                ...getBaseVerify(required),
+                ui_type: 'select',
+            },
+        }
+    },
+    SELECT_INTERN: ({ caption }) => {
+        return {
+            config: {
+                ...getBaseConfig(caption, true),
+                ui_widget: 'input',
+            },
+        }
+    },
     BOOLEAN: ({ required, readOnly, caption }) => {
         return {
             config: {
@@ -102,15 +123,31 @@ export async function MetaInfoDtoToFormSchema(
     const fieldsConfig: { [key: string]: IFormItem } = {}
     // 字段校验schema
     const verifySchema: IFormSchema['ui_verifySchema'] = {}
+    const fieldGroupMap: {
+        [groupName: string]: { mainKey?: string; relMap: { [key: string]: string } }
+    } = {}
     // 转换promise
     const pros: ITransFormResult[] = []
 
-    // 过滤隐藏字段并转换
     for (const fieldInfo of metaInfoDtoArr) {
-        const { visible, key, fkeytype } = fieldInfo
+        // 过滤隐藏字段并转换
+        const { visible, key, fkeytype, metaName, fkey } = fieldInfo
         if (visible) {
             fieldsOrder.push(key)
             pros.push((transformMap[fkeytype] || transformMap._DEFAULT)(fieldInfo, metaService))
+        }
+
+        if (metaName) {
+            // 生成 relationSchema 中间结构
+            if (!fieldGroupMap[metaName]) {
+                fieldGroupMap[metaName] = {
+                    relMap: {},
+                }
+            }
+            if (fkeytype === 'SELECT') {
+                fieldGroupMap[metaName].mainKey = key
+            }
+            fieldGroupMap[metaName].relMap[key] = fkey
         }
     }
 
@@ -119,11 +156,23 @@ export async function MetaInfoDtoToFormSchema(
     transFormresult.forEach(({ config, verify }, index) => {
         const { key } = metaInfoDtoArr[index]
         fieldsConfig[key] = config
-        verifySchema[key] = verify
+        if (verify) {
+            verifySchema[key] = verify
+        }
     })
 
     return {
         ui_verifySchema: verifySchema,
+        ui_relationSchema: Object.keys(fieldGroupMap).reduce(
+            (result, groupName) => {
+                const { mainKey, relMap } = fieldGroupMap[groupName]
+                return {
+                    ...result,
+                    [mainKey]: relMap,
+                }
+            },
+            {} as IFormSchema['ui_relationSchema'],
+        ),
         fieldsConfig,
         fieldsOrder,
     }
