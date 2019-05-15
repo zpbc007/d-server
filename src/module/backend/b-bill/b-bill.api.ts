@@ -99,4 +99,16 @@ export class BBillApi {
             .setBody(dto)
             .post()
     }
+
+    /** 提交表头 */
+    submitBill(bUnitId: string, metaId: string, dto: TokenDataDto) {
+        return this.reqIns
+            .setUrl('/bill/submit/meta-id')
+            .setQueryObj({
+                businessUnitCode: bUnitId,
+                metaId,
+            })
+            .setBody(dto)
+            .post()
+    }
 }

@@ -204,4 +204,9 @@ export class BillService {
     saveBill(metaId: string, tokenId: string, formData) {
         return this.backBillService.saveBill(metaId, tokenId, formData)
     }
+
+    /** 提交表头数据 */
+    submitBill(bUnitId: string, metaId: string, tokenId: string, formData) {
+        return this.backBillService.submitBill(bUnitId, metaId, tokenId, formData)
+    }
 }

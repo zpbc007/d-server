@@ -83,11 +83,25 @@ export class BillController {
     }
 
     /** 保存表头数据 */
-    @Post('/:metaId/:tokenId')
+    @Post('/save/:metaId/:tokenId')
     saveBill(@Param('metaId') metaId: string, @Param('tokenId') tokenId: string, @Body() fromData) {
         if (!fromData) {
             throw new BadRequestException('shoud have formData')
         }
         return this.billService.saveBill(metaId, tokenId, fromData)
+    }
+
+    /** 提交表头数据 */
+    @Post('/submit/:bUnitId/:metaId/:tokenId')
+    submitBill(
+        @Param('bUnitId') bUnitId: string,
+        @Param('metaId') metaId: string,
+        @Param('tokenId') tokenId: string,
+        @Body() fromData,
+    ) {
+        if (!fromData) {
+            throw new BadRequestException('shoud have formData')
+        }
+        return this.billService.submitBill(bUnitId, metaId, tokenId, fromData)
     }
 }
