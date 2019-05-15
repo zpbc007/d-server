@@ -77,6 +77,7 @@ export class BBillApi {
             .put<TokenDataDto>()
     }
 
+    /** 获取分录数据 */
     getEntryData(billMetaId: string, billTokenId: string, entryMetaId: string) {
         return this.reqIns
             .setUrl('/bill/entry/bill-meta-id/bill-token-id/entry-meta-id')
@@ -86,5 +87,16 @@ export class BBillApi {
                 entryMetaId,
             })
             .get<TokenDataDto[]>()
+    }
+
+    /** 保存表头 */
+    saveBill(metaId: string, dto: TokenDataDto) {
+        return this.reqIns
+            .setUrl('/bill/bill/meta-id')
+            .setQueryObj({
+                metaId,
+            })
+            .setBody(dto)
+            .post()
     }
 }

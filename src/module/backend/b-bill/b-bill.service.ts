@@ -34,4 +34,25 @@ export class BBillService {
             tokenId: data.tokenId,
         }
     }
+
+    /** 保存表头 */
+    async saveBill(metaId: string, tokenId: string, formData) {
+        // 获取 form 数据
+        const preFormData = await this.billApi.getBillToken(metaId, tokenId)
+        // 合并 form 数据
+        preFormData.fields.map((item) => {
+            const { key } = item
+            if (formData[key]) {
+                if (typeof formData[key] === 'object') {
+                    const { value, showValue } = formData[key]
+                    item.jsonData = showValue
+                    item.businessId = value
+                } else {
+                    item.jsonData = formData[key]
+                }
+            }
+        })
+
+        this.billApi.saveBill(metaId, preFormData)
+    }
 }

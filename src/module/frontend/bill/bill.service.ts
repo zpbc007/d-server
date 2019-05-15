@@ -144,10 +144,9 @@ export class BillService {
     /** 获取业务节点的关联meta下的数据 */
     async getRelData(bUnitId: string, metaId: string, preMetaId?: string, preTokenId?: string) {
         const data = await this.backBillService.getRelData(bUnitId, metaId, preMetaId, preTokenId)
-        return this.addOperationData(data, (rowData) =>
-            addQuery(`/bill/${bUnitId}/${metaId}`, {
-                tokenId: rowData.tokenId,
-            }),
+        return this.addOperationData(
+            data,
+            (rowData) => `/bill/${bUnitId}/${metaId}/${rowData.tokenId}`,
         )
     }
 
@@ -199,5 +198,10 @@ export class BillService {
     /** 获取 select 类型 table 数据 */
     async getSelectTableData(metaId: string, pageNo: number, pageSize: number) {
         return this.baseService.getSelectTableData(metaId, pageNo, pageSize)
+    }
+
+    /** 保存表头数据 */
+    saveBill(metaId: string, tokenId: string, formData) {
+        return this.backBillService.saveBill(metaId, tokenId, formData)
     }
 }

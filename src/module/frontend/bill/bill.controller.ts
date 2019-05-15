@@ -1,4 +1,14 @@
-import { Controller, Get, Param, Query, UseGuards, UseInterceptors } from '@nestjs/common'
+import {
+    Controller,
+    Get,
+    Param,
+    Query,
+    UseGuards,
+    UseInterceptors,
+    Post,
+    Body,
+    BadRequestException,
+} from '@nestjs/common'
 import { BillService } from './bill.service'
 import { OAuthInterceptor } from '@interceptor/oauth.interceptor'
 import { AuthGuard } from '@nestjs/passport'
@@ -70,5 +80,14 @@ export class BillController {
         @Query('pageSize') pageSize: number = 10,
     ) {
         return this.billService.getSelectTableData(metaId, pageNo, pageSize)
+    }
+
+    /** 保存表头数据 */
+    @Post('/:metaId/:tokenId')
+    saveBill(@Param('metaId') metaId: string, @Param('tokenId') tokenId: string, @Body() fromData) {
+        if (!fromData) {
+            throw new BadRequestException('shoud have formData')
+        }
+        return this.billService.saveBill(metaId, tokenId, fromData)
     }
 }
