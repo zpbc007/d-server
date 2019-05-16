@@ -116,17 +116,9 @@ export class BillService {
     }
 
     /** 下推 */
+    // TODO: 等待更改
     async pushDown(bUnitId: string, preMetaId: string, preTokenId: string, metaId: string) {
-        const [formConfig, formData] = await Promise.all([
-            this.metaService.getFormSchemaByMetaId(metaId),
-            // TODO: 现在接口直接把信息的数据返回回来，但在页面间跳转时带数据不方便，希望后端直接返回新的tokenId，跳转后前端主动查询
-            this.backBillService.pushDown(bUnitId, preMetaId, preTokenId, metaId),
-        ])
-
-        return {
-            formSchema: this.mergeSchemaService.createDefaultFormSchema(formConfig, false),
-            formData,
-        }
+        return this.backBillService.pushDown(bUnitId, preMetaId, preTokenId, metaId)
     }
 
     /** 获取分录数据 */

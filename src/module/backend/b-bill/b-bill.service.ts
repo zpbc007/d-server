@@ -55,9 +55,10 @@ export class BBillService {
     }
 
     /** 下推 */
+    // TODO: 希望只返回id
     async pushDown(bUnitId: string, preMetaId: string, preTokenId: string, metaId: string) {
         const data = await this.billApi.pushDown(bUnitId, preMetaId, preTokenId, metaId)
-        return TokenDataDtoToFormData(data)
+        return data.tokenId
     }
 
     /** 新建分录 */
