@@ -28,12 +28,10 @@ export class BBillService {
     }
 
     /** 新建表单 */
-    async putBill(bUnitId: string, metaId: string) {
-        const data = await this.billApi.putBill(bUnitId, metaId)
-        return {
-            formData: TokenDataDtoToFormData(data),
-            tokenId: data.tokenId,
-        }
+    // TODO: 希望只返回 id
+    async createBill(bUnitId: string, metaId: string) {
+        const data = await this.billApi.createBill(bUnitId, metaId)
+        return data.tokenId
     }
 
     /** 保存表头 */

@@ -18,6 +18,12 @@ import { AuthGuard } from '@nestjs/passport'
 export class BillController {
     constructor(private readonly billService: BillService) {}
 
+    /** 创建表单 */
+    @Put('/bill/:bUnitId/:metaId')
+    createBill(@Param('bUnitId') bUnitId: string, @Param('metaId') metaId: string) {
+        return this.billService.createBill(bUnitId, metaId)
+    }
+
     /**
      * 获取表单页面定义与数据 表头：定义 + 数据、 分录：定义、 关联单据：定义
      */
@@ -28,14 +34,6 @@ export class BillController {
         @Param('tokenId') tokenId: string,
     ) {
         return this.billService.getViewPage(bUnitId, metaId, tokenId)
-    }
-
-    /**
-     * 新建表单页面 表头： 定义 + 数据、 分录：定义
-     */
-    @Get('/page/:bUnitId/:metaId')
-    createBillPage(@Param('bUnitId') bUnitId: string, @Param('metaId') metaId: string) {
-        return this.billService.getAddPage(bUnitId, metaId)
     }
 
     /** 获取业务节点的关联 meta 及其对应的 table 定义 */

@@ -21,6 +21,11 @@ export class BillService {
         private readonly baseService: BaseService,
     ) {}
 
+    /** 创建表单 */
+    createBill(bUnitId: string, metaId: string) {
+        return this.backBillService.createBill(bUnitId, metaId)
+    }
+
     /** 获取编辑页面 form 定义 + 数据， 所有的 table 定义 （表头 定义 + 数据、 分录 定义、 关联单据 定义） */
     async getViewPage(bUnitId: string, metaId: string, tokenId: string) {
         const [
@@ -53,26 +58,6 @@ export class BillService {
                     value: tokenMetaId,
                 } as IListItem<string>
             }),
-        }
-    }
-
-    /** 获取添加页面 form 定义 + 数据， 所有的 table 定义 （表头 定义 + 数据、 分录 定义） */
-    async getAddPage(bUnitId: string, metaId: string) {
-        const [formConfig, { formData, tokenId }] = await Promise.all([
-            // 获取 from 定义
-            this.metaService.getFormSchemaByMetaId(metaId),
-            // 创建表单
-            this.backBillService.putBill(bUnitId, metaId),
-        ])
-
-        // 获取所有分录 table 定义
-        const entryTableList = await this.getEntryMetaAndTableColumns(metaId, tokenId)
-
-        return {
-            tokenId,
-            formSchema: this.mergeSchemaService.createDefaultFormSchema(formConfig, false),
-            formData,
-            entryTableList,
         }
     }
 

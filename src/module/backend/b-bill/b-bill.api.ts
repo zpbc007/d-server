@@ -14,7 +14,7 @@ export class BBillApi {
     }
 
     /** 新建表单 */
-    putBill(bUnitId: string, metaId: string) {
+    createBill(bUnitId: string, metaId: string) {
         return this.reqIns
             .setUrl(`/bill/bill/business-unit-code/${bUnitId}/meta-id/${metaId}`)
             .put<TokenDataDto>()
