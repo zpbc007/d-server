@@ -13,6 +13,13 @@ export class BBillApi {
         this.reqIns = getReqIns(this.request)
     }
 
+    /** 新建表单 */
+    putBill(bUnitId: string, metaId: string) {
+        return this.reqIns
+            .setUrl(`/bill/bill/business-unit-code/${bUnitId}/meta-id/${metaId}`)
+            .put<TokenDataDto>()
+    }
+
     /** 表单一览信息 */
     getBillToken(metaId: string, tokenId: string) {
         return this.reqIns
@@ -70,13 +77,6 @@ export class BBillApi {
             .get<TokenMetaInformationDto[]>()
     }
 
-    /** 新建表单 */
-    putBill(bUnitId: string, metaId: string) {
-        return this.reqIns
-            .setUrl(`/bill/bill/business-unit-code/${bUnitId}/meta-id/${metaId}`)
-            .put<TokenDataDto>()
-    }
-
     /** 获取分录数据 */
     getEntryData(billMetaId: string, billTokenId: string, entryMetaId: string) {
         return this.reqIns
@@ -107,6 +107,44 @@ export class BBillApi {
             .setQueryObj({
                 businessUnitCode: bUnitId,
                 metaId,
+            })
+            .setBody(dto)
+            .post()
+    }
+
+    /** 下推 */
+    pushDown(bUnitId: string, preMetaId: string, preTokenId: string, metaId: string) {
+        return this.reqIns
+            .setUrl(`/bill/pushDown`)
+            .setQueryObj({
+                businessUnitCode: bUnitId,
+                preMetaId,
+                preTokenId,
+                metaId,
+            })
+            .get<TokenDataDto>()
+    }
+
+    /** 新建分录 */
+    createEntry(billMetaId: string, billTokenId: string, entryMetaId: string) {
+        return this.reqIns
+            .setUrl(`/bill/entry/bill-token-id/entry-meta-id`)
+            .setQueryObj({
+                billMetaId,
+                billTokenId,
+                entryMetaId,
+            })
+            .put<TokenDataDto>()
+    }
+
+    /** 保存分录 */
+    saveEntry(billMetaId: string, billTokenId: string, entryMetaId: string, dto: TokenDataDto) {
+        return this.reqIns
+            .setUrl(`/bill/entry/bill-token-id/entry-meta-id`)
+            .setQueryObj({
+                entryMetaId,
+                billTokenId,
+                billMetaId,
             })
             .setBody(dto)
             .post()

@@ -6,6 +6,7 @@ import { MetaService } from '@module-back/meta'
 interface ITransFormFieldResult {
     config: IFormItem
     verify?: IVerifyConfig
+    key: string
 }
 
 type ITransFormResult = ITransFormFieldResult | Promise<ITransFormFieldResult>
@@ -25,7 +26,7 @@ const transformMap: {
         service: MetaService,
     ) => ITransFormResult
 } = {
-    STRING: ({ required, readOnly, caption }) => {
+    STRING: ({ required, readOnly, caption, key }) => {
         return {
             config: {
                 ...getBaseConfig(caption, readOnly),
@@ -35,9 +36,10 @@ const transformMap: {
                 ...getBaseVerify(required),
                 ui_type: 'string',
             },
+            key,
         }
     },
-    DATE: ({ required, readOnly, caption }) => {
+    DATE: ({ required, readOnly, caption, key }) => {
         return {
             config: {
                 ...getBaseConfig(caption, readOnly),
@@ -47,6 +49,7 @@ const transformMap: {
                 ...getBaseVerify(required),
                 ui_type: 'date',
             },
+            key
         }
     },
     CONSTANT: ({ required, readOnly, caption, key }, service: MetaService) => {
@@ -63,10 +66,11 @@ const transformMap: {
                     ...getBaseVerify(required),
                     ui_type: 'string',
                 },
+                key,
             })
         })
     },
-    SELECT: ({ caption, required, readOnly, metaKey }) => {
+    SELECT: ({ caption, required, readOnly, metaKey, key }) => {
         return {
             config: {
                 ...getBaseConfig(caption, readOnly),
@@ -77,17 +81,19 @@ const transformMap: {
                 ...getBaseVerify(required),
                 ui_type: 'select',
             },
+            key,
         }
     },
-    SELECT_INTERN: ({ caption }) => {
+    SELECT_INTERN: ({ caption, key }) => {
         return {
             config: {
                 ...getBaseConfig(caption, true),
                 ui_widget: 'input',
             },
+            key,
         }
     },
-    BOOLEAN: ({ required, readOnly, caption }) => {
+    BOOLEAN: ({ required, readOnly, caption, key }) => {
         return {
             config: {
                 ...getBaseConfig(caption, readOnly),
@@ -97,9 +103,10 @@ const transformMap: {
                 ...getBaseVerify(required),
                 ui_type: 'boolean',
             },
+            key,
         }
     },
-    _DEFAULT: ({ required, readOnly, caption }) => {
+    _DEFAULT: ({ required, readOnly, caption, key }) => {
         return {
             config: {
                 ...getBaseConfig(caption, readOnly),
@@ -109,6 +116,7 @@ const transformMap: {
                 ...getBaseVerify(required),
                 ui_type: 'string',
             },
+            key,
         }
     },
 }
@@ -153,8 +161,7 @@ export async function MetaInfoDtoToFormSchema(
 
     // 等待所有转换完毕
     const transFormresult = await Promise.all(pros)
-    transFormresult.forEach(({ config, verify }, index) => {
-        const { key } = metaInfoDtoArr[index]
+    transFormresult.forEach(({ config, verify, key }, index) => {
         fieldsConfig[key] = config
         if (verify) {
             verifySchema[key] = verify

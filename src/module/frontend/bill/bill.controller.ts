@@ -8,6 +8,7 @@ import {
     Post,
     Body,
     BadRequestException,
+    Put,
 } from '@nestjs/common'
 import { BillService } from './bill.service'
 import { OAuthInterceptor } from '@interceptor/oauth.interceptor'
@@ -54,16 +55,6 @@ export class BillController {
         return this.billService.getRelData(bUnitId, metaId, preMetaId, preTokenId)
     }
 
-    /** 获取分录数据 */
-    @Get('/entry/:billMetaId/:billTokenId/:entryMetaId')
-    getEntryData(
-        @Param('billMetaId') billMetaId: string,
-        @Param('billTokenId') billTokenId: string,
-        @Param('entryMetaId') entryMetaId: string,
-    ) {
-        return this.billService.getEntryData(billMetaId, billTokenId, entryMetaId)
-    }
-
     /** 获取 select 类型 table 定义 */
     @Get('/select/columns/:metaId')
     getSelectTableColumns(@Param('metaId') metaId: string) {
@@ -103,5 +94,64 @@ export class BillController {
             throw new BadRequestException('shoud have formData')
         }
         return this.billService.submitBill(bUnitId, metaId, tokenId, fromData)
+    }
+
+    /** 下推 */
+    // TODO: 等待更改
+    @Put('/push-down/:bUnitId/:preMetaId/:preTokenId/:metaId')
+    pushDown(
+        @Param('bUnitId') bUnitId: string,
+        @Param('preMetaId') preMetaId: string,
+        @Param('preTokenId') preTokenId: string,
+        @Param('metaId') metaId: string,
+    ) {
+        return this.billService.pushDown(bUnitId, preMetaId, preTokenId, metaId)
+    }
+
+    /** 获取分录数据 */
+    @Get('/entry/:billMetaId/:billTokenId/:entryMetaId')
+    getEntryData(
+        @Param('billMetaId') billMetaId: string,
+        @Param('billTokenId') billTokenId: string,
+        @Param('entryMetaId') entryMetaId: string,
+    ) {
+        return this.billService.getEntryData(billMetaId, billTokenId, entryMetaId)
+    }
+
+    /** 新增分录 */
+    @Put('/entry/:billMetaId/:billTokenId/:entryMetaId')
+    createEntry(
+        @Param('billMetaId') billMetaId: string,
+        @Param('billTokenId') billTokenId: string,
+        @Param('entryMetaId') entryMetaId: string,
+    ) {
+        return this.billService.createEntry(billMetaId, billTokenId, entryMetaId)
+    }
+
+    /** 获取分录 from 定义 + 数据 */
+    @Get('/entry/:entryMetaId/:entryTokenId')
+    getEntryViewPage(
+        @Param('entryMetaId') entryMetaId: string,
+        @Param('entryTokenId') entryTokenId: string,
+    ) {
+        return this.billService.getEntryViewPage(entryMetaId, entryTokenId)
+    }
+
+    /** 保存分录 */
+    @Post('/entry/:billMetaId/:billTokenId/:entryMetaId/:entryTokenId')
+    saveEntry(
+        @Param('billMetaId') billMetaId: string,
+        @Param('billTokenId') billTokenId: string,
+        @Param('entryMetaId') entryMetaId: string,
+        @Param('entryTokenId') entryTokenId: string,
+        @Body() formData,
+    ) {
+        return this.billService.saveEntry(
+            billMetaId,
+            billTokenId,
+            entryMetaId,
+            entryTokenId,
+            formData,
+        )
     }
 }

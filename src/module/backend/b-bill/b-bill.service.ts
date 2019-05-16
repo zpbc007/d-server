@@ -56,6 +56,45 @@ export class BBillService {
         this.billApi.submitBill(bUnitId, metaId, data)
     }
 
+    /** 下推 */
+    async pushDown(bUnitId: string, preMetaId: string, preTokenId: string, metaId: string) {
+        const data = await this.billApi.pushDown(bUnitId, preMetaId, preTokenId, metaId)
+        return TokenDataDtoToFormData(data)
+    }
+
+    /** 新建分录 */
+    async createEntry(billMetaId: string, billTokenId: string, entryMetaId: string) {
+        const data = await this.billApi.createEntry(billMetaId, billTokenId, entryMetaId)
+
+        return {
+            formData: TokenDataDtoToFormData(data),
+            tokenId: data.tokenId,
+        }
+    }
+
+    /** 获取分录 form 数据 */
+    async getEntryFormData(entryMetaId: string, entryTokenId: string) {
+        // 获取 form 数据
+        const data = await this.billApi.getBillToken(entryMetaId, entryTokenId)
+        return TokenDataDtoToFormData(data)
+    }
+
+    /** 保存分录 */
+    async saveEntry(
+        billMetaId: string,
+        billTokenId: string,
+        entryMetaId: string,
+        entryTokenId: string,
+        formData,
+    ) {
+        // 获取 form 数据
+        const serverFormData = await this.billApi.getBillToken(entryMetaId, entryTokenId)
+        // 合并 form 数据
+        const data = this.mergeFormData(serverFormData, formData)
+
+        this.billApi.saveEntry(billMetaId, billTokenId, entryMetaId, data)
+    }
+
     private mergeFormData(serverData: TokenDataDto, clientData: any) {
         serverData.fields.map((item) => {
             const { key } = item
