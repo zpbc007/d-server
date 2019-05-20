@@ -55,7 +55,14 @@ export function getReqIns(request: Request) {
                 }
             }
 
-            return Promise.reject(msg)
+            return Promise.reject(
+                new AxiosException({
+                    config: res.config,
+                    response: res,
+                    name: `backend error, resultCode: ${resultCode}`,
+                    message: msg,
+                }),
+            )
         },
         (error) => {
             throw new AxiosException(error)

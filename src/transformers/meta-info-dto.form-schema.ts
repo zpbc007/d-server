@@ -49,7 +49,7 @@ const transformMap: {
                 ...getBaseVerify(required),
                 ui_type: 'date',
             },
-            key
+            key,
         }
     },
     CONSTANT: ({ required, readOnly, caption, key }, service: MetaService) => {

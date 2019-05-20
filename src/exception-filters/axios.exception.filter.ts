@@ -3,7 +3,7 @@ import { Response } from 'express'
 import { AxiosException } from './axios.exception'
 
 @Catch(AxiosException)
-export class HttpExceptionFilter implements ExceptionFilter {
+export class AxiosExceptionFilter implements ExceptionFilter {
     catch(exception: HttpException, host: ArgumentsHost) {
         const ctx = host.switchToHttp()
         const response = ctx.getResponse<Response>()

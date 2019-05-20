@@ -5,6 +5,7 @@ import { Logger } from '@nestjs/common'
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule)
+    // app.useGlobalFilters(new AxiosExceptionFilter())
     await app.listen(ServerConfig.port)
 
     Logger.log(`init finished, listen on port ${ServerConfig.port}`, 'bootstrap')
