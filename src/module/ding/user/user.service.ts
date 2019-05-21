@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ClientService } from '../client.service'
-import { AdminListResult } from './user.interface'
+import { DingBaseReturn } from '@module-ding/common/ding-base-return'
+import { BaseUserInfo } from './dto/base-user-info'
 
 @Injectable()
 export class UserService {
@@ -16,7 +17,7 @@ export class UserService {
             .setQueryObj({
                 code,
             })
-            .get()
+            .get<BaseUserInfo & DingBaseReturn>()
     }
 
     /**
@@ -36,6 +37,6 @@ export class UserService {
      * 获取管理员列表
      */
     async getAdmins() {
-        return this.client.setUrl('/user/get_admin').get<AdminListResult>()
+        return this.client.setUrl('/user/get_admin').get()
     }
 }

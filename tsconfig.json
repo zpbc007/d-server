@@ -17,7 +17,8 @@
       "@type-comp/*": ["type/component/*"],
       "@interceptor/*": ["interceptors/*"],
       "@transformer/*": ["transformers/*"],
-      "@exception-filter/*": ["exception-filters/*"]
+      "@exception-filter/*": ["exception-filters/*"],
+      "@module-ding/*": ["module/ding/*"]
     }
   },
   "exclude": ["node_modules"]
