@@ -1,0 +1,11 @@
+{
+    "type": "postgres",
+    "host": "101.71.4.178",
+    "port": 15333,
+    "username": "fp",
+    "password": "fp@123",
+    "database": "dingtalk_hospital",
+    "migrations": ["migration/*.ts"],
+    "dropSchema": false,
+    "synchronize": false
+}

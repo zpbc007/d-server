@@ -1,4 +1,4 @@
-import { TokenDataDto } from '@module-back/dto/TokenDataDto'
+import { TokenDataDto } from '@module-back/back-dto/TokenDataDto'
 
 export function TokenDataDtoToTableData(tokenDataDtos: TokenDataDto[]) {
     return tokenDataDtos.map(({ tokenId, fields = [] }) => {

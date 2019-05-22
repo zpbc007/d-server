@@ -1,4 +1,4 @@
-import { TokenDataPageableDto } from '@module-back/dto/TokenDataPageableDto'
+import { TokenDataPageableDto } from '@module-back/back-dto/TokenDataPageableDto'
 import { ITableData } from '@type-comp/table-data'
 
 export function TokenDataPageableDtoToTableData({

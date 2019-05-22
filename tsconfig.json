@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "resolveJsonModule": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -12,12 +13,14 @@
     "paths": {
       "@config/*": ["config/*"],
       "@utils/*": ["utils/*"],
-      "@module-front/*": ["module/frontend/*"],
-      "@module-back/*": ["module/backend/*"],
       "@type-comp/*": ["type/component/*"],
       "@interceptor/*": ["interceptors/*"],
       "@transformer/*": ["transformers/*"],
       "@exception-filter/*": ["exception-filters/*"],
+      "@z-axios/*": ["z-axios/*"],
+      "@logger/*": ["logger/*"],
+      "@module-front/*": ["module/frontend/*"],
+      "@module-back/*": ["module/backend/*"],
       "@module-ding/*": ["module/ding/*"]
     }
   },

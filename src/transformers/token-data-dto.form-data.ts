@@ -1,4 +1,4 @@
-import { FkeyField, TokenDataDto } from '@module-back/dto/TokenDataDto'
+import { FkeyField, TokenDataDto } from '@module-back/back-dto/TokenDataDto'
 import { IInputDrawerValue } from '@type-comp/input-drawer'
 
 const transformMap: { [key in FkeyField['dataType'] | 'DEFAULT']?: (dto: FkeyField) => any } = {

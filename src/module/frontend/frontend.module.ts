@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
-import { CertificateModule } from './certificate/certificate.module'
-import { AuthModule } from './auth/auth.module'
-import { UserModule } from './user/user.module'
-import { BillModule } from './bill/bill.module'
-import { MergeSchemaModule } from './merge-schema/merge-schema.module'
+import { CertificateModule } from './front-certificate/certificate.module'
+import { FrontAuthModule } from './front-auth/auth.module'
+import { UserModule } from './front-user/user.module'
+import { BillModule } from './front-bill/bill.module'
+import { MergeSchemaModule } from './front-merge-schema/merge-schema.module'
 
 @Module({
-    imports: [AuthModule, CertificateModule, UserModule, BillModule, MergeSchemaModule],
+    imports: [FrontAuthModule, CertificateModule, UserModule, BillModule, MergeSchemaModule],
 })
 export class FrontendModule {}

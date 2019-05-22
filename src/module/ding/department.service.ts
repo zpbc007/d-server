@@ -1,5 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common'
-import { ClientService } from './client.service'
+import { Injectable } from '@nestjs/common'
+import { dingReqIns } from '@z-axios/ding-axios'
 
 /** 用户排序 */
 enum UserOrderEnum {
@@ -17,14 +17,12 @@ enum UserOrderEnum {
 
 @Injectable()
 export class DepartmentService {
-    constructor(private readonly client: ClientService) {}
-
     /**
      * 获取部门用户userid列表
      * @param deptId 部门id
      */
     getUserIds(deptId: string) {
-        return this.client
+        return dingReqIns
             .setUrl('/user/getDeptMember')
             .setQueryObj({
                 deptId,
@@ -40,7 +38,7 @@ export class DepartmentService {
      * @param order 排序
      */
     getUsers(deptId: string, offset: number, size: number, order: UserOrderEnum) {
-        return this.client
+        return dingReqIns
             .setUrl('/user/simplelist')
             .setQueryObj({
                 lang: 'zh_CN',
@@ -60,7 +58,7 @@ export class DepartmentService {
      * @param order 排序
      */
     async getUsersDetail(deptId: string, offset: number, size: number, order: UserOrderEnum) {
-        return this.client
+        return dingReqIns
             .setUrl('/user/listbypage')
             .setQueryObj({
                 lang: 'zh_CN',

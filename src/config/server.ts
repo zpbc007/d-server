@@ -8,13 +8,16 @@ export const ServerConfig = {
         agentId: 253844578,
     },
     backend: {
-        port: 19090,
         // 丛
         // host: '172.16.0.3',
         // 高
         // host: '172.16.0.6',
         // 姜
-        host: '172.16.0.23',
+        // host: '172.16.0.23',
+        // port: 19090,
+        // 医院
+        host: '101.71.4.178',
+        port: 24001,
         client_id: 'toptimus_client',
         client_secret: '123456',
     },

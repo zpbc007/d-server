@@ -1,6 +1,6 @@
-import { MetaInfoDTO } from '@module-back/dto/MetaInfoDTO'
+import { MetaInfoDTO } from '@module-back/back-dto/MetaInfoDTO'
 import { IColumn } from '@type-comp/table-schema'
-import { FkeyField } from '@module-back/dto/TokenDataDto'
+import { FkeyField } from '@module-back/back-dto/TokenDataDto'
 
 const transformMap: {
     [key in FkeyField['dataType'] | '_DEFAULT']?: (info: MetaInfoDTO) => IColumn

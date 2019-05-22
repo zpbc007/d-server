@@ -9,16 +9,19 @@ import {
 } from '@nestjs/common'
 import { catchError, map, concat, toArray } from 'rxjs/operators'
 import { from, throwError } from 'rxjs'
-import { OAuthApi } from '@module-back/oauth'
-import { JwtPayload } from '@module-front/auth/jwt-payload.interface'
-import { AuthService } from '@module-front/auth/auth.service'
-import { OAuthDTO } from '@module-back/dto/OAuthDTO'
+import { BackOAuthApi } from '@module-back/back-oauth'
+import { JwtPayload } from '@module-front/front-auth/jwt-payload.interface'
+import { FrontAuthService } from '@module-front/front-auth/auth.service'
+import { OAuthDTO } from '@module-back/back-dto/OAuthDTO'
 
 const ContextStr = 'OAuthInterceptor'
 
 @Injectable()
 export class OAuthInterceptor implements NestInterceptor {
-    constructor(private readonly oAuthApi: OAuthApi, private readonly authService: AuthService) {}
+    constructor(
+        private readonly oAuthApi: BackOAuthApi,
+        private readonly authService: FrontAuthService,
+    ) {}
 
     intercept(context: ExecutionContext, next: CallHandler) {
         const that = this

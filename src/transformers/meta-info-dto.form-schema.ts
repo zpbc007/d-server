@@ -1,7 +1,7 @@
-import { MetaInfoDTO } from '@module-back/dto/MetaInfoDTO'
-import { FkeyField } from '@module-back/dto/TokenDataDto'
+import { MetaInfoDTO } from '@module-back/back-dto/MetaInfoDTO'
+import { FkeyField } from '@module-back/back-dto/TokenDataDto'
 import { IFormItem, IFormSchema, IVerifyConfig } from '@type-comp/form-schema'
-import { MetaService } from '@module-back/meta'
+import { MetaService } from '@module-back/back-meta'
 
 interface ITransFormFieldResult {
     config: IFormItem
