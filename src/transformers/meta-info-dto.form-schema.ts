@@ -1,7 +1,7 @@
 import { MetaInfoDTO } from '@module-back/back-dto/MetaInfoDTO'
 import { FkeyField } from '@module-back/back-dto/TokenDataDto'
 import { IFormItem, IFormSchema, IVerifyConfig } from '@type-comp/form-schema'
-import { MetaService } from '@module-back/back-meta'
+import { BackMetaService } from '@module-back/back-meta'
 
 interface ITransFormFieldResult {
     config: IFormItem
@@ -23,7 +23,7 @@ const getBaseVerify = (required: boolean) => ({
 const transformMap: {
     [key in FkeyField['dataType'] | '_DEFAULT']?: (
         info: MetaInfoDTO,
-        service: MetaService,
+        service: BackMetaService,
     ) => ITransFormResult
 } = {
     STRING: ({ required, readOnly, caption, key }) => {
@@ -52,7 +52,7 @@ const transformMap: {
             key,
         }
     },
-    CONSTANT: ({ required, readOnly, caption, key }, service: MetaService) => {
+    CONSTANT: ({ required, readOnly, caption, key }, service: BackMetaService) => {
         return new Promise(async (resolve) => {
             const options = await service.baseService.getConstant(key)
 
@@ -123,7 +123,7 @@ const transformMap: {
 
 export async function MetaInfoDtoToFormSchema(
     metaInfoDtoArr: MetaInfoDTO[],
-    metaService: MetaService,
+    metaService: BackMetaService,
 ) {
     // 字段顺序
     const fieldsOrder: string[] = []

@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, BadRequestException } from '@nestjs/common'
+import { Controller, Get, Param, BadRequestException } from '@nestjs/common'
 import { DingUserService } from './ding-user.service'
 
 @Controller('ding-user')

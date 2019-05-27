@@ -32,9 +32,8 @@ export class BackBaseApi {
     /** 取得 meta 一览数据 */
     getMetaListData(metaId: string, pageNo: number, pageSize: number) {
         return this.reqIns
-            .setUrl(`/base/metaId`)
+            .setUrl(`/base/metaId/${metaId}`)
             .setQueryObj({
-                metaId,
                 pageNo,
                 pageSize,
             })
