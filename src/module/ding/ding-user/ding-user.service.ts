@@ -29,7 +29,7 @@ export class DingUserService {
         const { userid: dingUserId } = await this.userApi.getBaseUserInfo(code)
         // TODO: 数据库中只有这个id
         // 将钉钉用户 id 转为后端用户 id
-        const userId = await this.getSystemUserIdByDingUserId('manager8261' || dingUserId)
+        const userId = await this.getSystemUserIdByDingUserId('0220135623679411' || dingUserId)
         if (!userId) {
             return null
         }
